@@ -1,0 +1,42 @@
+[
+  {
+    "timestamp": "1.658.792.408.357",
+    "name": "Drag Queen Rag Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "DQRD002",
+    "thumbnail": "http://someimage.jpeg",
+    "price": "999.99",
+    "stock": 4444,
+    "id": 1
+  },
+  {
+    "timestamp": "1.658.795.105.403",
+    "name": "Pitt Crew Rubber Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "PCRD001",
+    "thumbnail": "http://someimage.png",
+    "price": "299.99",
+    "stock": 9999,
+    "id": 2
+  },
+  {
+    "timestamp": "1.658.795.137.666",
+    "name": "Alyssa Edwards Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "AED001",
+    "thumbnail": "http://someimage.png",
+    "price": "1299.99",
+    "stock": 10,
+    "id": 3
+  },
+  {
+    "timestamp": "1.658.795.218.995",
+    "name": "Alaska 2000 Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "ATT001",
+    "thumbnail": "http://someimage.png",
+    "price": "11299.99",
+    "stock": 100,
+    "id": 4
+  }
+]
