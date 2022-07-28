@@ -1,13 +1,11 @@
 import fs from 'fs';
 
 class Container {
-    route: string;
-
-    constructor(route: string) {
+    constructor(route) {
         this.route = route;
     }
 
-    async save(object: any) {
+    async save(object) {
         try {
             const allObjects = await this.getAll();
             const currentLength = allObjects.length;
@@ -21,14 +19,11 @@ class Container {
         }
     }
 
-    async getById(objectId: number) {
+    async getById(objectId) {
         try {
             const allObjects = await this.getAll();
 
             const object = allObjects.find(obj => obj.id === objectId);
-            if (object === undefined)
-                throw new Error(`No se encontró el objeto.`);
-
             return object;
         } catch (error) {
             throw new Error(`No se pudo recuperar el objeto de id ${objectId}: ${error}`);
@@ -39,7 +34,7 @@ class Container {
         const allObjects = await this.getAll();
         const index = allObjects.findIndex(item => item.id === objectId)
         if (index === -1)
-            return null
+            return undefined
 
         const object = allObjects[index];
         for (const prop in newData) {
@@ -63,13 +58,13 @@ class Container {
         }
     }
 
-    async deleteById(objectId: number) {
+    async deleteById(objectId) {
         try {
             const allObjects = await this.getAll();
 
             const index = allObjects.findIndex(obj => obj.id === objectId);
             if (index === -1)
-                throw new Error(`No se encontró el objeto.`);
+                return undefined;
 
             const object = allObjects.splice(index, 1)[0];
             await fs.promises.writeFile(this.route, JSON.stringify(allObjects, null, 2));

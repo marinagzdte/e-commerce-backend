@@ -1,15 +1,5 @@
 [
   {
-    "timestamp": "1.658.792.408.357",
-    "name": "Drag Queen Rag Doll",
-    "description": "A super cool RuPaul doll.",
-    "code": "DQRD002",
-    "thumbnail": "http://someimage.jpeg",
-    "price": "999.99",
-    "stock": 4444,
-    "id": 1
-  },
-  {
     "timestamp": "1.658.795.105.403",
     "name": "Pitt Crew Rubber Doll",
     "description": "A super cool RuPaul doll.",
@@ -30,13 +20,53 @@
     "id": 3
   },
   {
-    "timestamp": "1.658.795.218.995",
-    "name": "Alaska 2000 Doll",
+    "timestamp": "1.658.967.806.375",
+    "name": "Drag Queen Rag Doll",
     "description": "A super cool RuPaul doll.",
-    "code": "ATT001",
-    "thumbnail": "http://someimage.png",
-    "price": "11299.99",
-    "stock": 100,
+    "code": "DQRD002",
+    "thumbnail": "http://someimage.jpeg",
+    "price": "999.99",
+    "stock": 4444,
     "id": 4
+  },
+  {
+    "timestamp": "1.658.969.021.687",
+    "name": "Pitt Crew Rubber Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "PCRD001",
+    "thumbnail": "http://someimage.png",
+    "price": "299.99",
+    "stock": 9999,
+    "id": 5
+  },
+  {
+    "timestamp": "function now() { [native code] }",
+    "name": "Pitt Crew Rubber Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "PCRD001",
+    "thumbnail": "http://someimage.png",
+    "price": "299.99",
+    "stock": 9999,
+    "id": 6
+  },
+  {
+    "timestamp": "27/7/2022 21:45:39",
+    "name": "Pitt Crew Rubber Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "PCRD001",
+    "thumbnail": "http://someimage.png",
+    "price": "299.99",
+    "stock": 9999,
+    "id": 7
+  },
+  {
+    "timestamp": "27/7/2022 21:57:29",
+    "name": "Pitt Crew Rubber Doll",
+    "description": "A super cool RuPaul doll.",
+    "code": "PCRD001",
+    "thumbnail": "http://someimage.png",
+    "price": "299.99",
+    "stock": 9999,
+    "id": 8
   }
 ]
