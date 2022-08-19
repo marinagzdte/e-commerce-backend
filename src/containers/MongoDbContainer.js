@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import config from '../config.js'
 //import { asPOJO, renameField, removeField } from '../utils/objectUtils.js'
 
 class MongoDbContainer {
@@ -9,7 +8,8 @@ class MongoDbContainer {
 
     async save(object) {
         try {
-            await this.model.create(object);
+            const newDoc = await this.model.create(object);
+            return newDoc._id;
         } catch (error) {
             throw new Error(`No se pudo guardar: ${error}`);
         }
@@ -17,9 +17,11 @@ class MongoDbContainer {
 
     async getById(objectId) {
         try {
-            const res = await this.model.find({ _id: objectId }, { __v: 0 })
-            console.log(res)
-            return res
+            const docs = await this.model.find({ _id: objectId }, { __v: 0 })
+            if (docs.length != 1 || docs[0] === null || docs[0] === undefined)
+                throw new Error('404 - No se encontró el elemento buscado.');
+
+            return docs[0];
         } catch (error) {
             throw new Error(`No se pudo recuperar por id ${objectId}: ${error}`);
         }
@@ -27,9 +29,12 @@ class MongoDbContainer {
 
     async modifyItemById(newObject) {
         try {
-            return await this.model.replaceOne({ _id: newObject._id }, newObject)
+            const result = await this.model.replaceOne({ _id: newObject._id }, newObject)
+            if (!result.acknowledged || result.modifiedCount != 1) {
+                throw new Error('404 - No se encontró el elemento a actualizar.');
+            }
         } catch (error) {
-            throw new Error(`No se pudo actualizar por id ${objectId}: ${error}`);
+            throw new Error(`No se pudo actualizar por id ${newObject._id}: ${error}`);
         }
     }
 
@@ -43,7 +48,10 @@ class MongoDbContainer {
 
     async deleteById(objectId) {
         try {
-            return await this.model.deleteOne({ _id: objectId });
+            const result = await this.model.deleteOne({ _id: objectId });
+            if (!result.acknowledged || result.deletedCount != 1) {
+                throw new Error('404 - No se encontró el elemento a borrar.');
+            }
         } catch (error) {
             throw new Error(`No se pudo eliminar el objeto de id ${objectId}: ${error}`);
         }
@@ -51,9 +59,9 @@ class MongoDbContainer {
 
     async deleteAll() {
         try {
-            return await this.model.deleteMany({})
+            return await this.model.deleteMany({});
         } catch (error) {
-
+            throw new Error(`No se pudieron eliminar todos los elementos: ${error}`);
         }
     }
 }
