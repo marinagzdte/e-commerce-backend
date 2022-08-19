@@ -1,17 +1,14 @@
 import { Router } from 'express';
-import Container from '../lib/Container.js';
-import Product from '../lib/Product.js';
 import validateAdmin from '../utils/validateAdmin.js';
+import { productsDao as productsApi } from '../daos/index.js'
 
 const productRouter = Router();
-const productContainer = new Container('../products.txt');
 
 productRouter.get('/:id?', async (req, res) => {
     if (req.params.id === undefined) {
-        res.json(await productContainer.getAll());
+        res.json(await productsApi.getAll());
     } else {
-        const id = Number(req.params.id);
-        const product = await productContainer.getById(id)
+        const product = await productsApi.getById(req.params.id)
         if (product === undefined) {
             res.status(404)
             res.json({ error: -3, descripcion: 'producto no encontrado' })
@@ -22,15 +19,11 @@ productRouter.get('/:id?', async (req, res) => {
 });
 
 productRouter.post('/', validateAdmin, async (req, res) => {
-    const { name, description, code, thumbnail, price, stock } = req.body;
-    const product = new Product(name, description, code, thumbnail, price, stock);
-    res.json({ id: await productContainer.save(product) });
+    res.json({ id: await productsApi.save(req.body) });
 });
 
 productRouter.put('/:id', validateAdmin, async (req, res) => {
-    const id = Number(req.params.id)
-    const newData = req.body
-    const modifiedProduct = await productContainer.modifyItemById(id, newData)
+    const modifiedProduct = await productsApi.modifyItemById(req.body)
     if (modifiedProduct === undefined) {
         res.status(404)
         res.json({ error: -3, descripcion: 'producto no encontrado' })
@@ -40,8 +33,7 @@ productRouter.put('/:id', validateAdmin, async (req, res) => {
 });
 
 productRouter.delete('/:id', validateAdmin, async (req, res) => {
-    const id = Number(req.params.id);
-    const deletedProduct = await productContainer.deleteById(id);
+    const deletedProduct = await productsApi.deleteById(req.params.id);
     if (deletedProduct === undefined) {
         res.status(404)
         res.json({ error: -3, descripcion: 'producto no encontrado' })
