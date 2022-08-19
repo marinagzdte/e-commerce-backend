@@ -10,7 +10,7 @@ class MongoDbCartsDao extends MongoDbContainer {
 
     save() {
         const newCart = { timestamp: new Date(), products: [] }
-        super.save(newCart)
+        return super.save(newCart)
     }
 }
 
