@@ -4,57 +4,90 @@ import { cartsDao as cartsApi } from '../daos/index.js'
 const cartRouter = Router();
 
 cartRouter.post('/', async (req, res) => {
-    res.json({ id: await cartsApi.save(req.body) });
+    try {
+        const _id = await cartsApi.save(req.body);
+        res.json({ _id: _id });
+    } catch (error) {
+        console.log(error);
+
+        res.status(500);
+        res.json({ error: -100, descripcion: 'error al guardar' });
+    }
 });
 
 cartRouter.delete('/:id', async (req, res) => {
-    const deletedCart = await cartsApi.deleteById(req.params.id)
-    if (deletedCart === undefined || cart[0] === null) {
-        res.status(404)
-        res.json({ error: -4, descripcion: 'carrito no encontrado' })
-    } else {
-        res.json(deletedCart);
+    try {
+        await cartsApi.deleteById(req.params.id);
+        res.status(204);
+        res.send();
+    } catch (error) {
+        console.log(error);
+
+        if (error.message.includes('404'))
+            res.status(404);
+        else
+            res.status(500);
+
+        res.json({ error: -4, descripcion: 'carrito no encontrado' });
     }
-})
+});
 
 cartRouter.get('/:id/productos', async (req, res) => {
-    const cart = await cartsApi.getById(req.params.id);
-    if (cart === undefined || cart === null) {
-        res.status(404)
+    try {
+        const cart = await cartsApi.getById(req.params.id);
+        res.json(cart.products);
+    } catch (error) {
+        console.log(error);
+
+        if (error.message.includes('404'))
+            res.status(404);
+        else
+            res.status(500);
+
         res.json({ error: -4, descripcion: 'carrito no encontrado' })
     }
-    else
-        res.json(cart[0].products)
 });
 
 cartRouter.post('/:id/productos', async (req, res) => {
-    const cart = await cartsApi.getById(req.params.id);
-    if (cart === undefined || cart === null) {
-        res.status(404)
-        res.json({ error: -4, descripcion: 'carrito no encontrado' })
-    }
+    try {
+        const cart = await cartsApi.getById(req.params.id);
+        cart.products.push(req.body);
+        cartsApi.modifyItemById(cart);
+        res.json(cart.products);
+    } catch (error) {
+        console.log(error);
 
-    const desiredProduct = req.body;
-    cart[0].products.push(desiredProduct);
-    cartsApi.modifyItemById(cart[0]);
-    res.json(cart.products);
+        res.status(500);
+        res.json({ error: -4, descripcion: 'no se pudo agregar el producto al carrito' })
+    }
 });
 
 cartRouter.delete('/:id/productos/:id_prod', async (req, res) => {
-    const cart = await cartsApi.getById(req.params.id);
-    if (cart === undefined || cart === null) {
-        res.status(404)
-        res.json({ error: -4, descripcion: 'carrito no encontrado' });
-    }
+    try {
+        const cart = await cartsApi.getById(req.params.id);
 
-    const index = cart[0].products.findIndex(prod => prod._id === req.params.id_prod)
-    if (index === -1) {
-        res.status(404)
-        res.json({ error: -5, descripcion: 'el carrito no contiene ese producto' });
-    } else {
-        const deletedProduct = cart[0].products.splice(index, 1);
-        await cartsApi.modifyItemById(cart[0]);
-        res.json(deletedProduct);
+        const index = cart.products.findIndex(prod => prod._id === req.params.id_prod)
+        if (index === -1) {
+            res.status(404)
+            res.json({ error: -5, descripcion: 'el carrito no contiene ese producto' });
+        } else {
+            cart.products.splice(index, 1);
+            await cartsApi.modifyItemById(cart);
+            res.status(204);
+            res.send();
+        }
+
+    } catch (error) {
+        console.log(error);
+
+        if (error.message.includes('404')) {
+            res.status(404);
+            res.json({ error: -4, descripcion: 'carrito no encontrado' });
+        }
+        else {
+            res.status(500);
+            res.json({ error: -4, descripcion: 'no se pudo eliminar el producto del carrito' })
+        }
     }
 });
 
