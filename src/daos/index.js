@@ -6,7 +6,6 @@ let productsDao;
 
 switch (process.env.PERSISTENCE) {
     case 'mongodb':
-        console.log('configurando mongo')
         const { default: MongoDbProductsDao } = await import('./MongoDbProductsDao.js')
         const { default: MongoDbCartsDao } = await import('./MongoDbCartsDao.js');
         productsDao = new MongoDbProductsDao();
@@ -19,7 +18,6 @@ switch (process.env.PERSISTENCE) {
         cartsDao = new FirebaseCartsDao();
         break;
     default:
-        console.log('no funca')
         break;
 }
 
