@@ -13,7 +13,7 @@ productRouter.get('/:id?', async (req, res) => {
             console.log(error)
 
             res.status(500);
-            res.json({ error: -99, descripcion: 'error al listar los productos' });
+            res.json({ error: -1, descripcion: 'error al listar los productos' });
         }
     } else {
         try {
@@ -26,7 +26,7 @@ productRouter.get('/:id?', async (req, res) => {
                 res.status(404);
             else
                 res.status(500);
-            res.json({ error: -3, descripcion: 'producto no encontrado' });
+            res.json({ error: -2, descripcion: 'producto no encontrado' });
         }
     }
 });
@@ -39,7 +39,7 @@ productRouter.post('/', validateAdmin, async (req, res) => {
         console.log(error);
 
         res.status(500);
-        res.json({ error: -100, descripcion: 'error al guardar' });
+        res.json({ error: -3, descripcion: 'error al guardar producto' });
     }
 });
 
@@ -56,7 +56,7 @@ productRouter.put('/:id', validateAdmin, async (req, res) => {
         else
             res.status(500);
 
-        res.json({ error: -100, descripcion: 'error al actualizar' });
+        res.json({ error: -4, descripcion: 'error al actualizar producto' });
     }
 });
 
@@ -73,7 +73,7 @@ productRouter.delete('/:id', validateAdmin, async (req, res) => {
         else
             res.status(500);
 
-        res.json({ error: -3, descripcion: 'error al borrar' });
+        res.json({ error: -5, descripcion: 'error al borrar producto' });
     }
 });
 

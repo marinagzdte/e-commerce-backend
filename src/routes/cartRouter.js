@@ -11,7 +11,7 @@ cartRouter.post('/', async (req, res) => {
         console.log(error);
 
         res.status(500);
-        res.json({ error: -100, descripcion: 'error al guardar' });
+        res.json({ error: -6, descripcion: 'error al guardar carrito' });
     }
 });
 
@@ -28,7 +28,7 @@ cartRouter.delete('/:id', async (req, res) => {
         else
             res.status(500);
 
-        res.json({ error: -4, descripcion: 'carrito no encontrado' });
+        res.json({ error: -7, descripcion: 'carrito no encontrado' });
     }
 });
 
@@ -44,7 +44,7 @@ cartRouter.get('/:id/productos', async (req, res) => {
         else
             res.status(500);
 
-        res.json({ error: -4, descripcion: 'carrito no encontrado' })
+        res.json({ error: -7, descripcion: 'carrito no encontrado' })
     }
 });
 
@@ -58,7 +58,7 @@ cartRouter.post('/:id/productos', async (req, res) => {
         console.log(error);
 
         res.status(500);
-        res.json({ error: -4, descripcion: 'no se pudo agregar el producto al carrito' })
+        res.json({ error: -8, descripcion: 'no se pudo agregar el producto al carrito' })
     }
 });
 
@@ -69,7 +69,7 @@ cartRouter.delete('/:id/productos/:id_prod', async (req, res) => {
         const index = cart.products.findIndex(prod => prod.id === req.params.id_prod || prod._id === req.params.id_prod)
         if (index === -1) {
             res.status(404)
-            res.json({ error: -5, descripcion: 'el carrito no contiene ese producto' });
+            res.json({ error: -9, descripcion: 'el carrito no contiene ese producto' });
         } else {
             cart.products.splice(index, 1);
             await cartsApi.modifyItemById(req.params.id, cart);
@@ -82,11 +82,11 @@ cartRouter.delete('/:id/productos/:id_prod', async (req, res) => {
 
         if (error.message.includes('404')) {
             res.status(404);
-            res.json({ error: -4, descripcion: 'carrito no encontrado' });
+            res.json({ error: -7, descripcion: 'carrito no encontrado' });
         }
         else {
             res.status(500);
-            res.json({ error: -4, descripcion: 'no se pudo eliminar el producto del carrito' })
+            res.json({ error: -10, descripcion: 'no se pudo eliminar el producto del carrito' })
         }
     }
 });
