@@ -4,3 +4,25 @@
 
 /.vs
 /node_modules
+/db/diagnostic.data
+/db/journal
+/db/_mdb_catalog.wt
+/db/WiredTigerHS.wt
+/db/WiredTiger.wt
+/db/WiredTiger.turtle
+/db/WiredTiger.lock
+/db/WiredTiger
+/db/storage.bson
+/db/sizeStorer.wt
+/db/mongod.lock
+/db/index-8--5184383684357281545.wt
+/db/index-6--5184383684357281545.wt
+/db/index-5--5184383684357281545.wt
+/db/index-3--5184383684357281545.wt
+/db/index-10--5184383684357281545.wt
+/db/index-1--5184383684357281545.wt
+/db/collection-9--5184383684357281545.wt
+/db/collection-7--5184383684357281545.wt
+/db/collection-4--5184383684357281545.wt
+/db/collection-2--5184383684357281545.wt
+/db/collection-0--5184383684357281545.wt
