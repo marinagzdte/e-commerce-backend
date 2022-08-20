@@ -1,6 +1,14 @@
 import mongoose from "mongoose";
-//import { asPOJO, renameField, removeField } from '../utils/objectUtils.js'
+import config from '../config.js'
 
+if (process.env.PERSISTENCE === 'mongodb') {
+    try {
+        await mongoose.connect(config.mongodb.connectionString, config.mongodb.options)
+        console.log('conectado a la db')
+    } catch (error) {
+        console.log(`error al conectar con la db ${error}`)
+    }
+}
 class MongoDbContainer {
     constructor(modelName, schema) {
         this.model = mongoose.model(modelName, schema)
@@ -27,14 +35,14 @@ class MongoDbContainer {
         }
     }
 
-    async modifyItemById(newObject) {
+    async modifyItemById(objectId, newObject) {
         try {
-            const result = await this.model.replaceOne({ _id: newObject._id }, newObject)
+            const result = await this.model.replaceOne({ _id: objectId }, newObject)
             if (!result.acknowledged || result.modifiedCount != 1) {
                 throw new Error('404 - No se encontró el elemento a actualizar.');
             }
         } catch (error) {
-            throw new Error(`No se pudo actualizar por id ${newObject._id}: ${error}`);
+            throw new Error(`No se pudo actualizar por id ${objectId}: ${error}`);
         }
     }
 
@@ -59,7 +67,7 @@ class MongoDbContainer {
 
     async deleteAll() {
         try {
-            return await this.model.deleteMany({});
+            await this.model.deleteMany({});
         } catch (error) {
             throw new Error(`No se pudieron eliminar todos los elementos: ${error}`);
         }
