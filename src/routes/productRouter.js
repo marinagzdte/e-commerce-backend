@@ -45,7 +45,7 @@ productRouter.post('/', validateAdmin, async (req, res) => {
 
 productRouter.put('/:id', validateAdmin, async (req, res) => {
     try {
-        await productsApi.modifyItemById(req.body);
+        await productsApi.modifyItemById(req.params.id, req.body);
         res.status(204);
         res.send();
     } catch (error) {
@@ -56,7 +56,7 @@ productRouter.put('/:id', validateAdmin, async (req, res) => {
         else
             res.status(500);
 
-        res.json({ error: -100, descripcion: 'error al guardar' });
+        res.json({ error: -100, descripcion: 'error al actualizar' });
     }
 });
 

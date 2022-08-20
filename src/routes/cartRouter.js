@@ -52,7 +52,7 @@ cartRouter.post('/:id/productos', async (req, res) => {
     try {
         const cart = await cartsApi.getById(req.params.id);
         cart.products.push(req.body);
-        cartsApi.modifyItemById(cart);
+        cartsApi.modifyItemById(req.params.id, cart);
         res.json(cart.products);
     } catch (error) {
         console.log(error);
@@ -66,13 +66,13 @@ cartRouter.delete('/:id/productos/:id_prod', async (req, res) => {
     try {
         const cart = await cartsApi.getById(req.params.id);
 
-        const index = cart.products.findIndex(prod => prod._id === req.params.id_prod)
+        const index = cart.products.findIndex(prod => prod.id === req.params.id_prod || prod._id === req.params.id_prod)
         if (index === -1) {
             res.status(404)
             res.json({ error: -5, descripcion: 'el carrito no contiene ese producto' });
         } else {
             cart.products.splice(index, 1);
-            await cartsApi.modifyItemById(cart);
+            await cartsApi.modifyItemById(req.params.id, cart);
             res.status(204);
             res.send();
         }
