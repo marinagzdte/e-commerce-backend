@@ -1,0 +1,36 @@
+<h1>Registro de usuarios</h1>
+<form name="register-form" action="/register" method="post">
+    <div class="form-group mb-3">
+        <label class="form-label">Ingrese su nombre</label>
+        <input id="register-name" type="text" class="form-control" name="name">
+    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">Ingrese su dirección</label>
+        <input id="register-address" type="text" class="form-control" name="adress">
+    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">Ingrese su edad</label>
+        <input id="register-age" type="text" class="form-control" name="age">
+    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">Ingrese su número de teléfono</label>
+        <input id="register-phone-number" type="text" class="form-control" name="phoneNumber">
+    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">Ingrese su avatar</label>
+        <input id="register-avatar" type="text" class="form-control" name="avatar">
+    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">Ingrese su correo electrónico</label>
+        <input id="register-email" type="text" class="form-control" name="username">
+    </div>
+    <div class="form-group mb-3">
+        <label class="form-label">Ingrese su contraseña</label>
+        <input id="register-password" type="password" class="form-control" name="password">
+    </div>
+    <div class="button-div">
+        <button type="submit" class="btn btn-primary">Crear usuario</button>
+        <button type="submit" class="btn btn-primary" onclick="location.href = '/login'; return false;">Ir al
+            login</button>
+    </div>
+</form>
