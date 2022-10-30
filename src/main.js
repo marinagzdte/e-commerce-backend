@@ -5,7 +5,7 @@ import config from './config.js';
 
 const PORT = Number(process.env.PORT) || 8080;
 const server = app.listen(PORT, async () => {
-    console.log(`Servidor escuchando en puerto ${PORT}.`);
+    logger.logInfo(`Servidor escuchando en puerto ${PORT}.`);
     try {
         await mongoose.connect(config.mongodb.connectionString, config.mongodb.options)
         logger.logInfo('conectado a la db')
@@ -14,4 +14,4 @@ const server = app.listen(PORT, async () => {
     }
 })
 
-server.on('error', error => console.log(`Error en servidor ${error}`))
+server.on('error', error => logger.logError(error))
