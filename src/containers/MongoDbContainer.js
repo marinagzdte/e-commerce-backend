@@ -26,6 +26,16 @@ class MongoDbContainer {
         }
     }
 
+    async getByCondition(condition) {
+        try {
+            return await this.model.findOne(condition, { __v: 0 });
+        } catch (error) {
+            const err = new Error(`No se pudo recuperar por condicion ${condition}: ${error}`)
+            logger.logError(err);
+            throw err;
+        }
+    }
+
     async modifyItemById(objectId, newObject) {
         try {
             const result = await this.model.replaceOne({ _id: objectId }, newObject)
