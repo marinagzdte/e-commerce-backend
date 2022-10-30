@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
-import config from '../config.js'
 
-if (process.env.PERSISTENCE === 'mongodb') {
-    try {
-        await mongoose.connect(config.mongodb.connectionString, config.mongodb.options)
-        console.log('conectado a la db')
-    } catch (error) {
-        console.log(`error al conectar con la db ${error}`)
-    }
-}
 class MongoDbContainer {
     constructor(modelName, schema) {
         this.model = mongoose.model(modelName, schema)
