@@ -1,5 +1,5 @@
 <h1>Registro de usuarios</h1>
-<form name="register-form" action="/register" method="post">
+<form name="register-form" action="/register" method="post" enctype="multipart/form-data">
     <div class="form-group mb-3">
         <label class="form-label">Ingrese su nombre</label>
         <input id="register-name" type="text" class="form-control" name="name">
@@ -18,11 +18,11 @@
     </div>
     <div class="form-group mb-3">
         <label class="form-label">Ingrese su avatar</label>
-        <input id="register-avatar" type="text" class="form-control" name="avatar">
+        <input id="register-avatar" type="file" class="form-control" name="avatar">
     </div>
     <div class="form-group mb-3">
         <label class="form-label">Ingrese su correo electrónico</label>
-        <input id="register-email" type="text" class="form-control" name="username">
+        <input id="register-email" type="text" class="form-control" name="email">
     </div>
     <div class="form-group mb-3">
         <label class="form-label">Ingrese su contraseña</label>
