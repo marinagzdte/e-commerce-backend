@@ -1,6 +1,7 @@
 import passport from '../middlewares/passport.js';
 import { Router } from 'express';
 import logger from '../utils/logger.js';
+import { upload, uploadFile } from '../utils/uploadUtils.js';
 
 const sessionRouter = new Router();
 
@@ -22,7 +23,12 @@ sessionRouter.get('/register', logger.logReqInfo, (req, res) => {
     res.render('register');
 })
 
-sessionRouter.post('/register', passport.authenticate('register', { failureRedirect: '/register/error' }), (req, res) => { res.redirect('/login') });
+sessionRouter.post(
+    '/register',
+    upload.single('avatar'),
+    uploadFile,
+    passport.authenticate('register', { failureRedirect: '/register/error' }),
+    (req, res) => { res.redirect('/login') });
 
 sessionRouter.get('/register/error', logger.logReqInfo, (req, res) => {
     res.render('autherror', { registerError: true })
@@ -35,12 +41,8 @@ const checkAuth = (req, res, next) => {
         res.redirect('/login');
 }
 
-/*-----------------------------------------------*/
-/*                   routes                      */
-/*-----------------------------------------------*/
-
 sessionRouter.get('/', checkAuth, (req, res) => {
-    res.render('main', { name: req.user.name, username: req.user.username });
+    res.render('main', { name: req.user.name, email: req.user.email, avatar: req.user.avatar });
 });
 
 export default sessionRouter;
