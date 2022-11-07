@@ -25,11 +25,14 @@ passport.deserializeUser((user, done) => {
 })
 
 passport.use('login', new passportLocal.Strategy(
-    { passReqToCallback: true },
-    async (req, username, password, done) => {
+    {
+        usernameField: "email",
+        passwordField: "password",
+        passReqToCallback: true
+    },
+    async (req, email, password, done) => {
         try {
-            const user = await usersApi.getByCondition({ email: username });
-
+            const user = await usersApi.getByCondition({ email: email });
             if (!isValidPassword(user, password)) {
                 logger.logWarn('Contraseña inválida.');
                 return done(null, false);
@@ -47,6 +50,8 @@ passport.use('login', new passportLocal.Strategy(
 ));
 
 passport.use('register', new passportLocal.Strategy({
+    usernameField: "email",
+    passwordField: "password",
     passReqToCallback: true
 },
     async (req, username, password, done) => {
@@ -63,7 +68,7 @@ passport.use('register', new passportLocal.Strategy({
                 age: req.body.age,
                 address: req.body.adress,
                 phoneNumber: req.body.phoneNumber,
-                avatar: req.body.avatar
+                avatar: req.file.filename
             }
 
             await usersApi.save(newUser);
