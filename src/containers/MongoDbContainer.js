@@ -20,7 +20,7 @@ class MongoDbContainer {
             if (docs.length != 1 || docs[0] === null || docs[0] === undefined)
                 throw new Error('404 - No se encontró el elemento buscado.');
 
-            return docs[0];
+            return docs[0].lean();
         } catch (error) {
             throw new Error(`No se pudo recuperar por id ${objectId}: ${error}`);
         }
@@ -28,7 +28,7 @@ class MongoDbContainer {
 
     async getByCondition(condition) {
         try {
-            return await this.model.findOne(condition, { __v: 0 });
+            return await this.model.findOne(condition, { __v: 0 }).lean();
         } catch (error) {
             const err = new Error(`No se pudo recuperar por condicion ${condition}: ${error}`)
             logger.logError(err);
@@ -49,7 +49,7 @@ class MongoDbContainer {
 
     async getAll() {
         try {
-            return await this.model.find({}, { __v: 0 });
+            return await this.model.find({}, { __v: 0 }).lean();
         } catch (error) {
             throw new Error(`No se pudo recuperar: ${error}`);
         }
