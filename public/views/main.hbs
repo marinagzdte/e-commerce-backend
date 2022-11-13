@@ -1,10 +1,16 @@
 <script src="./../js/main.js"></script>
-<div>
-    <form action="/logout" method="get">
-        <div>
-            <img src="imgs/{{avatar}}" alt="" style="height: 70px;">
-            <h1 style="display: inline; font-size: xx-large;">Bienvenido {{name}} </h1>
-            <p style="display: inline;">Correo electrónico: {{email}}</p>
+<div class="Navbar-Container">
+    <form action="/logout" method="get" style="display:flex">
+        <img src="imgs/{{avatar}}" alt="" style="height: 70px; margin: auto;">
+        <h1 style="display: inline; font-size: xx-large; margin-left:2%; width: 55%;">Bienvenido {{name}} </h1>
+        <div style="width: 35%;">
+            <p style="margin:auto;">Tus datos</p>
+            <ul style="display:contents;">
+                <li>{{email}}</li>
+                <li>{{age}} años</li>
+                <li>{{address}}</li>
+                <li>{{phoneNumber}}</li>
+            </ul>
         </div>
         <button type="submit" class="button">Cerrar sesión</button>
     </form>
@@ -14,12 +20,15 @@
         <h3 class="Heading">Carrito de compras</h3>
         <h5 class="Action" onclick="emptyCart()">Vaciar carrito</h5>
     </div>
-    <div class="Cart-Items" id="apple">
+    {{#if products.length}}
+    {{#each products}}
+    <div class="Cart-Items" id="{{{this.name}}}">
         <div class="image-box">
-            <img src="imgs/apple.png" style="height:120px" />
+            <img src="{{{this.thumbnail}}}" style="height:60px" />
         </div>
         <div class="about">
-            <h1 class="title">Jugo de manzana</h1>
+            <h1 class="title">{{this.name}}</h1>
+            <h3>{{this.description}}</h3>
         </div>
         <div class="counter">
             <div class="counter-btn" onclick="addToCart(this.parentElement.parentElement)">+</div>
@@ -27,9 +36,13 @@
             <div class="counter-btn" onclick="removeFromCart(this.parentElement.parentElement)">-</div>
         </div>
         <div class="prices">
-            <div class="amount">$100</div>
+            <div class="amount">${{this.price}}</div>
         </div>
     </div>
+    {{/each}}
+    {{else}}
+    <h3>No hay productos</h3>
+    {{/if}}
     <div class="checkout">
         <hr>
         <div class="total">
