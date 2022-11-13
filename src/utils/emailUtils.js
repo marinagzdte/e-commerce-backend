@@ -3,7 +3,7 @@ import { sendMail } from "./nodeMailerUtils.js"
 const newMail = () => {
     return {
         from: 'e-commerce',
-        to: 'mgonzalezdante@gmail.com',
+        to: process.env.ADMIN_EMAIL,
         subject: null,
         html: null
     }
