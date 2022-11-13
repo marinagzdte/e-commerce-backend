@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer";
-import logger from "./logger.js";
+import logger from "./logger";
 
 const transporter = createTransport({
     service: 'gmail',

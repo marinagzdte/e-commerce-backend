@@ -4,6 +4,7 @@ import session from 'express-session';
 import passport from './middlewares/passport.js';
 import { engine } from 'express-handlebars';
 import compression from 'compression';
+import logger from './utils/logger.js';
 import { cartRouter, productRouter, sessionRouter } from "./routes/index.js";
 
 const app = express();
