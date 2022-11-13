@@ -6,6 +6,36 @@
             <h1 style="display: inline; font-size: xx-large;">Bienvenido {{name}} </h1>
             <p style="display: inline;">Correo electrónico: {{email}}</p>
         </div>
-        <button type="submit" class="btn btn-primary">Logout</button>
+        <button type="submit" class="button">Cerrar sesión</button>
     </form>
+</div>
+<div class="Cart-Container">
+    <div class="Header">
+        <h3 class="Heading">Carrito de compras</h3>
+        <h5 class="Action" onclick="emptyCart()">Vaciar carrito</h5>
+    </div>
+    <div class="Cart-Items" id="apple">
+        <div class="image-box">
+            <img src="imgs/apple.png" style="height:120px" />
+        </div>
+        <div class="about">
+            <h1 class="title">Jugo de manzana</h1>
+        </div>
+        <div class="counter">
+            <div class="counter-btn" onclick="addToCart(this.parentElement.parentElement)">+</div>
+            <div class="count">0</div>
+            <div class="counter-btn" onclick="removeFromCart(this.parentElement.parentElement)">-</div>
+        </div>
+        <div class="prices">
+            <div class="amount">$100</div>
+        </div>
+    </div>
+    <div class="checkout">
+        <hr>
+        <div class="total">
+            <div class="Subtotal">Subtotal</div>
+            <div class="total-amount">$0</div>
+        </div>
+        <button class="button">Comprar</button>
+    </div>
 </div>
