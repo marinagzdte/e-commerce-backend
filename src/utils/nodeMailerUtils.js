@@ -1,5 +1,5 @@
 import { createTransport } from "nodemailer";
-import logger from "./logger";
+import logger from "./logger.js";
 
 const transporter = createTransport({
     service: 'gmail',
@@ -16,7 +16,6 @@ const transporter = createTransport({
 export const sendMail = async (options) => {
     try {
         const info = await transporter.sendMail(options)
-        logger.logInfo(info)
     } catch (error) {
         logger.logError(error)
     }
