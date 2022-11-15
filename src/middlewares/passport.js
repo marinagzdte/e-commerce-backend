@@ -3,7 +3,6 @@ import passportLocal from 'passport-local';
 import bCrypt from 'bcrypt';
 import logger from '../utils/logger.js';
 import { usersDao as usersApi } from '../daos/index.js'
-import { cartsDao as cartsApi } from '../daos/index.js';
 
 /*-----------------------------------------------*/
 /*                 passport                      */
@@ -69,8 +68,7 @@ passport.use('register', new passportLocal.Strategy({
                 age: req.body.age,
                 address: req.body.adress,
                 phoneNumber: req.body.phoneNumber,
-                avatar: req.file.filename,
-                cart: await cartsApi.save()
+                avatar: req.file.filename
             }
 
             await usersApi.save(newUser);
