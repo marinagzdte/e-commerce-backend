@@ -2,7 +2,9 @@ import passport from '../middlewares/passport.js';
 import { Router } from 'express';
 import logger from '../utils/logger.js';
 import { upload, uploadFile } from '../utils/uploadUtils.js';
-import { sendNewUserEmail } from '../utils/emailUtils.js';
+import { sendNewOrderEmail, sendNewUserEmail } from '../utils/emailUtils.js';
+import { productsDao } from '../daos/index.js';
+import { sendMessage } from '../utils/twilioUtils.js';
 
 const sessionRouter = new Router();
 
@@ -45,8 +47,17 @@ const checkAuth = (req, res, next) => {
         res.redirect('/login');
 }
 
-sessionRouter.get('/', checkAuth, (req, res) => {
-    res.render('main', { name: req.user.name, email: req.user.email, avatar: req.user.avatar });
+sessionRouter.get('/', checkAuth, async (req, res) => {
+    const prods = await productsDao.getAll()
+    res.render('main', { name: req.user.name, email: req.user.email, age: req.user.age, phoneNumber: req.user.phoneNumber, address: req.user.address, avatar: req.user.avatar, products: prods });
 });
+
+sessionRouter.post('/order', async (req, res) => {
+    const order = req.body
+    logger.logInfo(`Se recibió un pedido del usuario ${order.user.name}`)
+
+    sendMessage('Tu pedido fue recibido y está en proceso.', order.user.phoneNumber);
+    await sendNewOrderEmail(order);
+})
 
 export default sessionRouter;
