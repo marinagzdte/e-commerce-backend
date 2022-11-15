@@ -51,3 +51,39 @@ const emptyCart = () => {
     document.querySelectorAll('div.count').forEach(c => c.innerHTML = 0)
     setSubtotal(0)
 }
+
+const getOrderDetails = () => {
+    let order = { products: [], total: 0, user: null }
+
+    const user = document.querySelector('form#user')
+    const name = user.querySelector('#name').innerHTML.slice(11)
+    const email = user.querySelector('#email').innerHTML
+    const phoneNumber = user.querySelector('#phoneNumber').innerHTML
+    order.user = {
+        name: name,
+        email: email,
+        phoneNumber: phoneNumber
+    }
+
+    const prods = document.querySelector('form#order').querySelectorAll('.prod')
+    for (let prod of prods) {
+        const count = Number(prod.querySelector('.count').innerHTML)
+        if (count === 0) continue
+
+        const name = prod.querySelector('.name').innerHTML
+        const price = Number(prod.querySelector('.price').innerHTML.slice(1))
+
+        order.products.push({ name: name, amount: count, price: price })
+        order.total += count * price
+    }
+
+    return order
+}
+
+const tryPostOrder = () => {
+    const order = getOrderDetails();
+    const request = new XMLHttpRequest()
+    request.open("POST", "/order", true);
+    request.setRequestHeader('Content-Type', 'application/json')
+    request.send(JSON.stringify(order));
+}
