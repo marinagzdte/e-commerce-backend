@@ -2,7 +2,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import bCrypt from 'bcrypt';
 import logger from '../utils/logger.js';
-import { usersDao as usersApi } from '../daos/index.js'
+import { cartsDao, usersDao as usersApi } from '../daos/index.js'
 import { cartsDao as cartsApi } from '../daos/index.js';
 
 /*-----------------------------------------------*/
