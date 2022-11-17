@@ -2,9 +2,7 @@ import passport from 'passport';
 import passportLocal from 'passport-local';
 import bCrypt from 'bcrypt';
 import logger from '../utils/logger.js';
-import { cartsDao, usersDao as usersApi } from '../daos/index.js'
-import { cartsDao as cartsApi } from '../daos/index.js';
-
+import { cartsDao as cartsApi, usersDao as usersApi } from '../daos/index.js'
 /*-----------------------------------------------*/
 /*                 passport                      */
 /*-----------------------------------------------*/
@@ -43,7 +41,8 @@ passport.use('login', new passportLocal.Strategy(
             return done(null, user);
         }
         catch (error) {
-            logger.logWarn(`Usuario ${username} no encontrado.`);
+            logger.logWarn(`Usuario ${email} no encontrado.`);
+            logger.logError(error)
             return done(null, false);
         }
     }
