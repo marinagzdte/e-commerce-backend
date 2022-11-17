@@ -1,6 +1,6 @@
 <script src="./../js/main.js"></script>
 <div class="Navbar-Container">
-    <form id="user" action="/logout" method="get" style="display:flex">
+    <form id="user" onsubmit="emptyCart('{{{cart}}}')" method="get" action="/logout" style="display:flex">
         <img src="imgs/{{avatar}}" alt="" style="height: 70px; margin: auto;">
         <h1 id="name" style="display: inline; font-size: xx-large; margin-left:2%; width: 55%;">Bienvenido {{name}}</h1>
         <div style="width: 35%;">
@@ -15,15 +15,15 @@
         <button type="submit" class="button">Cerrar sesión</button>
     </form>
 </div>
-<div class="Cart-Container">
+<div id="{{{cart}}}" class="Cart-Container">
     <div class="Header">
         <h3 class="Heading">Carrito de compras</h3>
-        <h5 class="Action" onclick="emptyCart()">Vaciar carrito</h5>
+        <h5 class="Action" onclick="emptyCart('{{{cart}}}')">Vaciar carrito</h5>
     </div>
     {{#unless products.length}}
     <h3>No hay productos</h3>
     {{else}}
-    <form action="/order" method="post" id="order" onsubmit="tryPostOrder();return false;">
+    <form id="order" onsubmit="tryPostOrder();return false;">
         {{#each products}}
         <div class="Cart-Items prod" id="{{{this.name}}}">
             <div class="image-box">
@@ -34,9 +34,9 @@
                 <h3>{{this.description}}</h3>
             </div>
             <div class="counter">
-                <div class="counter-btn" onclick="addToCart(this.parentElement.parentElement)">+</div>
-                <div class="count">0</div>
-                <div class="counter-btn" onclick="removeFromCart(this.parentElement.parentElement)">-</div>
+                <div class="counter-btn" onclick="addToCart('{{json this}}', '{{../cart}}')">+</div>
+                <div id='{{splitName this.name}}-count' class="count">0</div>
+                <div class="counter-btn" onclick="removeFromCart('{{json this}}', '{{../cart}}')">-</div>
             </div>
             <div class="prices">
                 <div class="amount price">${{this.price}}</div>
