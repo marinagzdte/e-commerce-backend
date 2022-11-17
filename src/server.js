@@ -29,7 +29,13 @@ app.engine('hbs', engine({
     extname: 'hbs',
     defaultLayout: 'index.hbs',
     layoutsDir: "./public/views/layouts",
-    partialsDir: "./public/views/partials"
+    partialsDir: "./public/views/partials",
+    helpers: {
+        json: function (context) { return JSON.stringify(context); },
+        splitName: function (name) {
+            return name.split(' ').join('')
+        }
+    }
 }));
 app.set('view engine', 'hbs');
 app.set('views', "./public/views");
