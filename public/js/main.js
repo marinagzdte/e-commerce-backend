@@ -9,16 +9,6 @@ if (document.readyState === 'complete') {
         }
     }
 }
-const getDetails = (prod) => {
-    return {
-        count: Number(prod.querySelector('div.count').innerHTML),
-        price: Number(prod.querySelector('div.amount').innerHTML.slice(1))
-    }
-}
-
-const setCount = (prod, count) => {
-    prod.querySelector('div.count').innerHTML = count
-}
 
 const getSubtotal = () => {
     const checkoutDiv = document.querySelector('div.total-amount')
@@ -30,26 +20,63 @@ const setSubtotal = (newTotal) => {
     checkoutDiv.innerHTML = `$${newTotal}`
 }
 
-const addToCart = (prod) => {
-    const details = getDetails(prod)
-    const subtotal = getSubtotal()
-
-    setCount(prod, details.count + 1)
-    setSubtotal(subtotal + details.price)
+const getCount = (prod) => {
+    const counter = document.querySelector(`#${prod.name.split(' ').join('')}-count`)
+    return Number(counter.innerHTML)
 }
 
-const removeFromCart = (prod) => {
-    const details = getDetails(prod)
-    if (details.count === 0) return false
-    const subtotal = getSubtotal()
-
-    setCount(prod, details.count - 1)
-    setSubtotal(subtotal - details.price)
+const setCount = (prod, count) => {
+    const counter = document.querySelector(`#${prod.name.split(' ').join('')}-count`)
+    counter.innerHTML = count
 }
 
-const emptyCart = () => {
+const resetCounters = () => {
     document.querySelectorAll('div.count').forEach(c => c.innerHTML = 0)
-    setSubtotal(0)
+    setSubtotal(0);
+}
+
+function modifyOrder(product, add) {
+    const subtotal = getSubtotal()
+
+    if (add) {
+        newCount = getCount(product) + 1
+        newSubtotal = subtotal + product.price
+    }
+    else {
+        newCount = getCount(product) - 1
+        newSubtotal = subtotal - product.price
+    }
+
+    setCount(product, newCount)
+    setSubtotal(newSubtotal)
+}
+
+const getName = (prod) => prod.name.split(' ').join('')
+
+const addToCart = (prod, cart) => {
+    const product = JSON.parse(prod)
+    const request = new XMLHttpRequest()
+    request.open("POST", `/api/carrito/${cart}/productos`, true);
+    request.addEventListener("load", modifyOrder(product, true));
+    request.setRequestHeader('Content-Type', 'application/json')
+    request.send(prod);
+}
+
+const removeFromCart = (prod, cart) => {
+    const product = JSON.parse(prod)
+    if (getCount(product) === 0) return false
+    const request = new XMLHttpRequest()
+    request.open("DELETE", `/api/carrito/${cart}/productos/${product._id}`, true);
+    request.addEventListener("load", modifyOrder(product, false));
+    request.setRequestHeader('Content-Type', 'application/json')
+    request.send();
+}
+
+const emptyCart = (cart) => {
+    const request = new XMLHttpRequest()
+    request.open("DELETE", `/api/carrito/${cart}/productos`, true);
+    request.addEventListener("load", resetCounters());
+    request.send();
 }
 
 const getOrderDetails = () => {
@@ -86,4 +113,5 @@ const tryPostOrder = () => {
     request.open("POST", "/order", true);
     request.setRequestHeader('Content-Type', 'application/json')
     request.send(JSON.stringify(order));
+    emptyCart();
 }
